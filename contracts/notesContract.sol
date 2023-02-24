@@ -9,6 +9,14 @@ contract NotesContract {
 
     uint public notesCounter = 0;
 
+    event NoteCreated (
+        uint id,
+        string title,
+        string note,
+        bool completed,
+        uint256 createdAt
+    );
+
     struct Notes {
         uint id;
         string title;
@@ -20,8 +28,9 @@ contract NotesContract {
     mapping (uint => Notes) public notes;
 
     function createNote(string memory _title, string memory _note) public {
-        notes[notesCounter] = Notes(notesCounter, _title, _note, false, block.timestamp);
         notesCounter++;
+        notes[notesCounter] = Notes(notesCounter, _title, _note, false, block.timestamp);
+        emit NoteCreated(notesCounter, _title, _note, false, block.timestamp);
     }
 
     function toggleNote(uint _id) public {

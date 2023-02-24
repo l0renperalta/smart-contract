@@ -14,7 +14,17 @@ contract('NotesContract', () => {
    });
 
    it('get notes list', async () => {
-      const counter = await this.notesContract.notesCounter;
-      //   1:12:00
+      const counter = await this.notesContract.notesCounter();
+      const note = await this.notesContract.notes(counter);
+
+      assert.equal(note.id.toNumber(), counter);
+      assert.equal(note.title, 'test title');
+      assert.equal(note.note, 'test note');
+      assert.equal(note.completed, false);
+      assert.equal(counter, 1);
    });
+
+   // it('note created successfully', async () => {
+
+   // })
 });
