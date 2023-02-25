@@ -17,6 +17,11 @@ contract NotesContract {
         uint256 createdAt
     );
 
+    event noteToggle (
+        uint id,
+        bool completed
+    );
+
     struct Notes {
         uint id;
         string title;
@@ -37,5 +42,6 @@ contract NotesContract {
         Notes memory _note = notes[_id];
         _note.completed = !_note.completed;
         notes[_id] = _note;
+        emit noteToggle(_id, _note.completed);
     }
 }

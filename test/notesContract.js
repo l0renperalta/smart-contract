@@ -24,7 +24,25 @@ contract('NotesContract', () => {
       assert.equal(counter, 1);
    });
 
-   // it('note created successfully', async () => {
+   it('note created successfully', async () => {
+      const result = await this.notesContract.createNote('some', 'stuff');
+      const noteEvent = result.logs[0].args;
+      const counter = await this.notesContract.notesCounter();
 
-   // })
+      assert.equal(counter, 2);
+      assert.equal(noteEvent.id.toNumber(), 2);
+      assert.equal(noteEvent.title, 'some');
+      assert.equal(noteEvent.note, 'stuff');
+      assert.equal(noteEvent.completed, false);
+   });
+
+   it('toggle changed succesfully', async () => {
+      const result = await this.notesContract.toggleNote(1);
+      const toggleEvent = await result.logs[0].args;
+      const note = await this.notesContract.notes(1);
+
+      assert.equal(note.completed, true);
+      assert.equal(toggleEvent.id, 1);
+      assert.equal(toggleEvent.completed, true);
+   });
 });
